@@ -89,10 +89,20 @@ SpotifyRouter.get('/callback', function (req, res) {
                     console.log(body);
                   });
             
-                res.redirect('https://siakams-tuneful-app.now.sh/profile')
-            };
-          });
-        }});
+                res.redirect('http://siakams-tuneful-app.now.sh/profile/#' +
+                  querystring.stringify({
+                    access_token: access_token,
+                    refresh_token: refresh_token
+                  }));
+              } else {
+                res.redirect('/#' +
+                  querystring.stringify({
+                    error: 'invalid_token'
+                  }));
+              }
+            });
+          }
+        });
 
 SpotifyRouter.get('/refresh_token', function (req, res) {
 
