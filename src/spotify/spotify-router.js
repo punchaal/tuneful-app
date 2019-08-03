@@ -72,11 +72,11 @@ SpotifyRouter.get('/callback', function (req, res) {
                 var access_token = body.access_token,
                     refresh_token = body.refresh_token;
 
-                res.cookie('refresh_token', refresh_token, {httpOnly:true})
+                res.cookie('refresh_token', refresh_token)
                 //saving refresh token in a server side cookie
 
                 
-                res.cookie('access_token', access_token, {httpOnly:true})
+                res.cookie('access_token', access_token)
 
                 var options = {
                     url: 'https://api.spotify.com/v1/me',
