@@ -88,21 +88,11 @@ SpotifyRouter.get('/callback', function (req, res) {
                   request.get(options, function(error, response, body) {
                     console.log(body);
                   });
-                // we can also pass the token to the browser to make requests from there
-                res.redirect('http://localhost:3000/profile/#' +
-                  querystring.stringify({
-                    access_token: access_token,
-                    refresh_token: refresh_token
-                  }));
-              } else {
-                res.redirect('/#' +
-                  querystring.stringify({
-                    error: 'invalid_token'
-                  }));
-              }
-            });
-          }
-        });
+            
+                res.redirect('https://siakams-tuneful-app.now.sh/profile')
+            };
+          });
+        }});
 
 SpotifyRouter.get('/refresh_token', function (req, res) {
 
