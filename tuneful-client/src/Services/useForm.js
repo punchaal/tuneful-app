@@ -23,7 +23,9 @@ const useForm = (callback) => {
         last_name.value = ''
         email.value = ''
         password.value = ''
-        history.push('/success')
+        window.setTimeout(() => {
+          history.push('/success');
+        }, 1000)
       })
       .catch(res => {
         console.log(res.error)

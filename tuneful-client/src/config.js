@@ -1,4 +1,4 @@
 export default {
-    API_ENDPOINT: 'http://localhost:8000/api',
+    API_ENDPOINT: 'https://thawing-spire-26886.herokuapp.com',
     TOKEN_KEY: 'tuneful-client-auth-token',
   }
