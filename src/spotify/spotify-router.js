@@ -6,15 +6,10 @@ const request = require('request'); // "Request" library
 const bodyParser = require('body-parser')
 const generateRandomString = require('./spotify-service')
 const UsersService = require('../users/users-service')
-const cookieParser = require('cookie-parser')
-const fetch = require("node-fetch")
 
 var client_id = process.env.SPOTIFY_CLIENT_ID; // Your client id
 var client_secret = process.env.SPOTIFY_CLIENT_SECRET; // Your secret
 var redirect_uri = process.env.SPOTIFY_REDIRECT_URI; // Your redirect uri
-
-const app = express()
-app.use(cookieParser())
 
 
 var stateKey = 'spotify_auth_state';
@@ -73,12 +68,10 @@ SpotifyRouter.get('/callback', function (req, res) {
                     refresh_token = body.refresh_token;
 
                 res.cookie('refresh_token', refresh_token)
-                //saving refresh token in a server side cookie
+                //saving refresh token in the database
 
-                console.log(refresh_token)
                 
                 res.cookie('access_token', access_token)
-                console.log(access_token)
 
                 var options = {
                     url: 'https://api.spotify.com/v1/me',
@@ -90,8 +83,8 @@ SpotifyRouter.get('/callback', function (req, res) {
                   request.get(options, function(error, response, body) {
                     console.log(body);
                   });
-            
-                res.redirect('http://siakams-tuneful-app.now.sh/profile/#' +
+                // we can also pass the token to the browser to make requests from there
+                res.redirect('http://localhost:3000/profile/#' +
                   querystring.stringify({
                     access_token: access_token,
                     refresh_token: refresh_token
@@ -131,34 +124,5 @@ SpotifyRouter.get('/refresh_token', function (req, res) {
         res.cookie('access_token', access_token)
     });
 });
-
-let searchTerm;
-
-SpotifyRouter.post('/search-term',(req,res)=>{
-    searchTerm = req.body.searchTerm;
-    res.status(201).json(`searchTerm set to ${searchTerm}`)
-    })
-
-
-
-SpotifyRouter.get('/search-spotify-term', (req, res) => {
-    console.log('Cookies: ', req.signedCookies)
-    const accessToken = 'Bearer ' + req.cookies.access_token;
-    
-    const baseUrl = "https://api.spotify.com/v1/search";
-    const query = searchTerm;	
-
-	const apiUrl = baseUrl + "?q="+query+"&type=track,album,artist";
-
-	fetch(apiUrl,{headers:{ Authorization: accessToken}})
-	.then(res => res.json())
-	.then(data => {
-		res.send({ data });
-	})
-	.catch(err => {
-		res.redirect('/error');
-	});
-
-})
 
 module.exports = SpotifyRouter;
