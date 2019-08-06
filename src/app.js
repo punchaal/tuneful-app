@@ -32,7 +32,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/posts', PostsRouter)
-app.use('/api',ImageUploadRouter)
+app.use('/api/',ImageUploadRouter)
 app.use('/api',SpotifyRouter)
 
 
